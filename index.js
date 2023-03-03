@@ -8,7 +8,9 @@ if(!fs.existsSync('cachedImages'))
     fs.mkdirSync('cachedImages');
 
 const app = express();
+
 let azuraUrl = process.argv[2];
+let defaultRadio = process.argv[3];
 
 if(!azuraUrl.endsWith('/'))
     azuraUrl += '/';
@@ -18,13 +20,6 @@ if(!azuraUrl.startsWith('http://') || !azuraUrl.startsWith('https://'))
 
 let cachedDatanp = null;
 let cachedData = null;
-
-let target = azuraUrl + 'listen/vrc_hell/radio.mp3';
-https.get(target, resp => {
-    if(resp.statusCode == 302) {
-        target = resp.headers.location;
-    }
-});
 
 app.get('/api/v1/np', async (req, res) => {
     res.header('Access-Control-Allow-Origin', '*');
@@ -75,7 +70,7 @@ app.get('/api/v1/live', async (req, res) => {
 
 app.get('/', (req, res) => {
     res.header('Access-Control-Allow-Origin', '*');
-    req.pipe(request.get(target)).pipe(res);
+    req.pipe(request.get(azuraUrl + 'listen/'+defaultRadio+'/radio.mp3')).pipe(res);
 });
 
 app.get('/cdn/art/:id', (req, res) => {

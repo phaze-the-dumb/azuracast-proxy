@@ -2,5 +2,5 @@
 
 Usage:
 ```yml
-node . azuracast.example.com
+node . <azuracast instance url> <radio name>
 ```
